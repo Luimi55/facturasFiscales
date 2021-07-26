@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./bootstrap-5.0.1-dist/css/bootstrap.min.css">
+    <title>Facturas Fiscales</title>
+</head>
+<body>
+    <h1>Facturas Fiscales - Luis Felipe Rosa</h1>
+    <form id="form" class="needs-validation" novalidate>
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <label for="validationCustom01">Fecha</label>
+            <input type="date" class="form-control" id="fecha" placeholder="Fecha" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom02">Cliente</label>
+            <input type="text" class="form-control" id="cliente" placeholder="Cliente" required>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="validationCustomUsername">Monto</label>
+            <input type="text" class="form-control" id="monto" placeholder="Monto" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1 mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="retencion" value="yes">
+                <label class="form-check-label" for="gridCheck">
+                    Retencion
+                </label>
+              </div>
+          </div>
+          <div class="col-md-1 mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="pago">
+                <label class="form-check-label" for="gridCheck">
+                    Pago
+                </label>
+              </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="certificacion">
+                <label class="form-check-label" for="gridCheck">
+                    Certificacion
+                </label>
+              </div>
+          </div>
+        </div>
+        <button id="btnForm"  class="btn btn-primary" type="submit">Agregar</button>
+
+      </form>
+
+      <table class="table" id="tablaFacturas">
+        <thead>
+          <tr>
+            <th class="col-md-1" scope="col">Fecha</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Monto</th>
+            <th scope="col">Retencion</th>
+            <th scope="col">Pago</th>
+            <th class="col-md-1" scope="col">Certificacion</th>
+            <th class="col-md-1" scope="col"></th>
+            <th class="col-md-1" scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+      
+      
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-firestore.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyCrRn9OP2E5xuC0K-moRZDR1bH5yIzfx1o",
+    authDomain: "facturas-fiscales.firebaseapp.com",
+    projectId: "facturas-fiscales",
+    storageBucket: "facturas-fiscales.appspot.com",
+    messagingSenderId: "464106849132",
+    appId: "1:464106849132:web:34097e5866549006a0a949",
+    measurementId: "G-C5JKWZY11Z"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
+      <script src="./app.js"></script>
+
+
+      
+    <script src="./bootstrap-5.0.1-dist/js/popper.min.js" ></script> 
+    <script src="./bootstrap-5.0.1-dist/js/bootstrap.min.js"></script>
+</body>
+</html>
