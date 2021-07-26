@@ -132,9 +132,9 @@ if(!editStatus) {
         certificacion: factura.certificacion
     })
 
-    editStatus = false
-    form['btnForm'].innerText = 'Actualizar'
     }
+    editStatus = false
+    form['btnForm'].innerText = 'Agregar'
 }
 
     
