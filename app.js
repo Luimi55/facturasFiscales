@@ -4,8 +4,33 @@ const form = document.getElementById('form')
 
 var tabla = document.getElementById("tablaFacturas").getElementsByTagName('tbody')[0];
 
+var printTab = document.getElementById("printTabla").getElementsByTagName('tbody')[0];
+
 let editStatus = false
 let id = ''
+
+
+const printFunction = () =>{
+    generadorPDF(hidePrintTable)
+}
+
+const hidePrintTable = ()=>{
+ document.getElementById("printAll").className = "invisible";
+}
+
+const generadorPDF = async (callBack) => {
+    document.getElementById("printAll").className = "visible"; 
+    const querySnapshot = await getFacturas()
+    await querySnapshot.forEach(doc => {
+        const factura = doc.data()
+        factura.id = doc.id
+        insertPrintData(factura)
+    })
+   await html2pdf()
+    .from(printAll)
+    .save("Facturas Fiscales")
+    callBack()
+}
 
 const saveFactura = (factura) => {
 db.collection('facturas').doc().set({
@@ -30,7 +55,7 @@ const saveFacturaFija = (factura) => {
     }
 
 
-const getFacturas = () => db.collection("facturas").get();
+const getFacturas =  () => db.collection("facturas").get();
 
 const getFactura = (id) => db.collection("facturas").doc(id).get()
 
@@ -38,10 +63,53 @@ const onGetfacturas = (callback) => db.collection("facturas").onSnapshot(callbac
 
 const deleteFactura = id => db.collection("facturas").doc(id).delete();
 
-const updateFactura = (id, updatedFactura) => db.collection("facturas").doc(id).update(updatedFactura)
+const updateFactura =  (id, updatedFactura) => db.collection("facturas").doc(id).update(updatedFactura)
+
+const change = async () => {
+    const querySnapshot = await getFacturas()
+    await querySnapshot.forEach(doc => {
+        const factura = doc.data()
+        if(factura.retencion == true){
+            factura.retencion = "Si"
+        } else {
+            factura.retencion = "No"
+        }
+
+        if(factura.pago == true){
+            factura.pago = "Si"
+        } else {
+            factura.pago = "No"
+        }
+
+        if(factura.certificacion == true){
+            factura.certificacion = "Si"
+        } else {
+            factura.certificacion = "No"
+        }
+
+     saveFacturaFija({
+            fecha: factura.fecha,
+            cliente: factura.cliente,
+            monto: factura.monto,
+            retencion: factura.retencion,
+            pago: factura.pago,
+            certificacion: factura.certificacion
+    })
+
+     updateFactura(doc.id, {
+        fecha: factura.fecha,
+        cliente: factura.cliente,
+        monto: factura.monto,
+        retencion: factura.retencion,
+        pago: factura.pago,
+        certificacion: factura.certificacion
+    })
+
+    })
+}
 
 window.addEventListener("DOMContentLoaded", async (e) => {
-
+     
 onGetfacturas((querySnapshot) => {
     tabla.innerHTML = '';
     querySnapshot.forEach((doc) => {
@@ -66,10 +134,28 @@ onGetfacturas((querySnapshot) => {
             
             const doc = await getFactura(e.target.dataset.id)
             const factura = doc.data()
-            console.log(doc.data())
+            //console.log(doc.data())
 
             editStatus = true
             id = doc.id
+
+            if(factura.retencion == "Si"){
+                factura.retencion = true
+            } else {
+                factura.retencion = false
+            }
+        
+            if(factura.pago == "Si"){
+                factura.pago = true
+            } else {
+                factura.pago = false
+            }
+        
+           if(factura.certificacion == "Si"){
+                factura.certificacion = true
+            } else {
+                factura.certificacion = false
+            }
 
             const fecha = factura.fecha
             form['fecha'].value = fecha[6]+fecha[7]+fecha[8]+fecha[9] +"-"+fecha[3]+fecha[4]+"-"+fecha[0]+fecha[1]
@@ -79,7 +165,7 @@ onGetfacturas((querySnapshot) => {
             form['pago'].checked = factura.pago
             form['certificacion'].checked = factura.certificacion
 
-            form['btnForm'].innerText = 'Actualizar'
+            document.getElementById("btnForm").innerText = "Actualizar"
             
         })
     })
@@ -104,10 +190,27 @@ form.addEventListener('submit', async (e)=> {
     console.log(factura.fecha);
     factura.cliente = document.getElementById("cliente").value
     factura.monto = document.getElementById("monto").value
-
     factura.retencion = document.getElementById("retencion").checked
     factura.pago = document.getElementById("pago").checked
     factura.certificacion = document.getElementById("certificacion").checked
+
+    if(factura.retencion == true){
+        factura.retencion = "Si"
+    } else {
+        factura.retencion = "No"
+    }
+
+    if(factura.pago == true){
+        factura.pago = "Si"
+    } else {
+        factura.pago = "No"
+    }
+
+    if(factura.certificacion == true){
+        factura.certificacion = "Si"
+    } else {
+        factura.certificacion = "No"
+    }
 
 if(!editStatus) {
     await saveFactura(factura)
@@ -115,7 +218,7 @@ if(!editStatus) {
 } else {
     let isExecuted = confirm("Estas seguro que quieres actualizar?");
     if(isExecuted){
-        await saveFacturaFija({
+    await saveFacturaFija({
             fecha: factura.fecha,
             cliente: factura.cliente,
             monto: factura.monto,
@@ -134,7 +237,7 @@ if(!editStatus) {
 
     }
     editStatus = false
-    form['btnForm'].innerText = 'Agregar'
+    document.getElementById("btnForm").innerText = "Agregar"
 }
 
     
@@ -155,6 +258,7 @@ function insertData(data){
     cell3.innerHTML = data.monto
     
     var cell4 = nuevaFila.insertCell(3)
+    
     cell4.innerHTML = data.retencion
 
     var cell5 = nuevaFila.insertCell(4)
@@ -172,34 +276,32 @@ function insertData(data){
     
 }
 
-// function onSubmit(){
-//     var nuevaFactura = guadarValores()
+
+
+function insertPrintData(data){
+    var nuevaFila = printTab.insertRow(printTab.length)
+
+    var cell1 = nuevaFila.insertCell(0)
+    cell1.innerHTML = data.fecha
+
+    var cell2 = nuevaFila.insertCell(1)
+    cell2.innerHTML = data.cliente
+
+    var cell3 = nuevaFila.insertCell(2)
+    cell3.innerHTML = data.monto
+    
+    var cell4 = nuevaFila.insertCell(3)
+    
+    cell4.innerHTML = data.retencion
+
+    var cell5 = nuevaFila.insertCell(4)
+    cell5.innerHTML = data.pago
+
+    var cell6 = nuevaFila.insertCell(5)
+    cell6.innerHTML = data.certificacion
 
     
-// }
-
-
-// function guadarValores(){
-//     event.preventDefault();
-
-//     let factura = {
-//         fecha: '',
-//         cliente: '',
-//         monto: '',
-//         retencion: false,
-//         pago: false,
-//         certificacion: false
-//     }
-
-//     factura.fecha = document.getElementById("fecha").value
-//     factura.cliente = document.getElementById("cliente").value
-//     factura.monto = document.getElementById("monto").value
-//     factura.retencion = document.getElementById("retencion").checked
-//     factura.pago = document.getElementById("pago").checked
-//     factura.certificacion = document.getElementById("certificacion").checked
-
-//     return factura
-// }
+}
 
 
 

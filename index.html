@@ -8,7 +8,8 @@
     <title>Facturas Fiscales</title>
 </head>
 <body>
-    <h1>Facturas Fiscales - Luis Felipe Rosa</h1>
+  <h1 class="d-lg-none">hola</h1>
+    <h1 id="f">Facturas Fiscales - Luis Felipe Rosa</h1>
     <form id="form" class="needs-validation" novalidate>
         <div class="row">
           <div class="col-md-3 mb-3">
@@ -51,9 +52,8 @@
           </div>
         </div>
         <button id="btnForm"  class="btn btn-primary" type="submit">Agregar</button>
-
+        <button onclick="printFunction()" id="btnForm"  class="btn btn-primary mx-5" type="button">Imprimir</button>
       </form>
-
       <table class="table table-bordered" id="tablaFacturas">
         <thead>
           <tr>
@@ -72,7 +72,23 @@
         </tbody>
       </table>
       
-      
+      <div class="invisible" id="printAll">
+        <h1>FACTURAS FISCALES LUIS FELIPE ROSA</h1>
+      <table class="table table-bordered" id="printTabla">
+        <thead>
+          <tr>
+            <th class="col-md-1" scope="col">Fecha</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Monto</th>
+            <th scope="col">Retencion</th>
+            <th scope="col">Pago</th>
+            <th class="col-md-1" scope="col">Certificacion</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
 
@@ -98,10 +114,9 @@
   firebase.analytics();
 </script>
 
-      <script src="./app.js"></script>
+    <script src="./app.js"></script>
 
-
-      
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js" ></script> 
     <script src="./bootstrap-5.0.1-dist/js/popper.min.js" ></script> 
     <script src="./bootstrap-5.0.1-dist/js/bootstrap.min.js"></script>
 </body>

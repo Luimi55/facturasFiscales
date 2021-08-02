@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./bootstrap-5.0.1-dist/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="m-5" id="imprimir">
+        <h1 id="f">Facturas Fiscales - Luis Felipe Rosa</h1>
+        <table class="table table-bordered" id="tablaImprimir">
+            <thead>
+              <tr>
+                <th class="col-md-1" scope="col">Fecha</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Monto</th>
+                <th scope="col">Retencion</th>
+                <th scope="col">Pago</th>
+                <th class="col-md-1" scope="col">Certificacion</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+    </div>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-firestore.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyCrRn9OP2E5xuC0K-moRZDR1bH5yIzfx1o",
+    authDomain: "facturas-fiscales.firebaseapp.com",
+    projectId: "facturas-fiscales",
+    storageBucket: "facturas-fiscales.appspot.com",
+    messagingSenderId: "464106849132",
+    appId: "1:464106849132:web:34097e5866549006a0a949",
+    measurementId: "G-C5JKWZY11Z"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
+    <script src="./imprimir.js"></script>
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js" ></script> 
+    <script src="./bootstrap-5.0.1-dist/js/popper.min.js" ></script> 
+    <script src="./bootstrap-5.0.1-dist/js/bootstrap.min.js"></script>
+</body>
+</html>
