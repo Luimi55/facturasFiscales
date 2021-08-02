@@ -108,15 +108,17 @@ const change = async () => {
     })
 }
 
+
+
 window.addEventListener("DOMContentLoaded", async (e) => {
-     
+   
 onGetfacturas((querySnapshot) => {
     tabla.innerHTML = '';
     querySnapshot.forEach((doc) => {
         const factura = doc.data()
         factura.id = doc.id
         insertData(factura)
-    
+        sortByDate()
     }) 
 
     const btnDelete = document.querySelectorAll('.delete')
@@ -240,10 +242,28 @@ if(!editStatus) {
     document.getElementById("btnForm").innerText = "Agregar"
 }
 
-    
-
     form.reset()
+    
 })
+
+function convertDate(d) {
+    var p = d.split("/");
+    return +(p[2]+p[1]+p[0]);
+  }
+  
+  function sortByDate() {
+    
+    // get trs as array for ease of use
+    var rows = [].slice.call(tabla.querySelectorAll("tr"));
+    
+    rows.sort(function(a,b) {
+      return convertDate(a.cells[0].innerHTML) - convertDate(b.cells[0].innerHTML);
+    });
+    
+    rows.forEach(function(v) {
+        tabla.appendChild(v); // note that .appendChild() *moves* elements
+    });
+  }
 
 function insertData(data){
     var nuevaFila = tabla.insertRow(tabla.length)
